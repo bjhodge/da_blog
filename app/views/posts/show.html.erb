@@ -5,13 +5,17 @@
     <p class="panel-title"><%= @post.title %></p>
   </div>
   <div class="panel-body">
-	<h4><%= @post.user.username%></h4>
+	<h4><%= link_to @post.user.username, user_posts_path(id: @post.user_id) %></h4>
 	<span class="small"><em><%= @post.created_at.strftime('%d %b %Y at %I: %M %p') %></em></span>
 	    <% if @post.created_at != @post.updated_at %>
     	<br />
     	<span class="small"><em>Updated at: <%= @post.updated_at.strftime('%d %b %Y at %I:%M %p') %></em></span>
     <% end %>
-    <p><%= @post.blog_entry %></p>
+    <p>
+    	<%= @post.blog_entry %>
+    	<br/>
+    	<%= image_tag @post.image, class: "post_image" %>
+    </p>
   </div>
   <div class="panel-footer">
   	<button class="btn btn-warning"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
@@ -25,7 +29,7 @@
 			<%= render 'comments/form', comment: @comment %>
 			<% @post.comments.each do |comment| %>
 				<p class="well">
-					<strong><%= comment.user.username %></strong> said: <br/>
+					<strong><%= image_tag comment.user.avatar, class: "icon" %><%= comment.user.username %></strong> said: <br/>
 					<%= comment.comment_entry %>
 				</p>
 			<% end %>
